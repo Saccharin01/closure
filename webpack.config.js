@@ -1,31 +1,44 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
-  // entry : "./src/app.tsx",
-  entry : "./vainalla/app.ts",
-  output : {
-    filename : "bundle.js",
-    path : path.resolve(__dirname, "dist")
+  entry: "./src/app.tsx",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist")
   },
-  module : {
+  module: {
     rules: [
       {
-        test:/\.css$/, 
-        use: ["style-loader", "css-loader"]
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'tailwindcss',
+                  'autoprefixer',
+                ],
+              },
+            },
+          },
+        ],
       },
       {
-        test:/\.(js|jsx|ts|tsx) $/, 
-        use:'babel-loader',
-        exclude:/node_modules/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
       },
       {
-        test:/\.(ts|tsx)$/, // ? 타입스크립트인지 확인 할거야
-        use:'ts-loader',
-        exclude:/node_modules/,
+        test: /\.(ts|tsx)$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       }
     ]
   },
-  resolve : {
-    extensions : [".ts",".js",".jsx",".tsx",".css"]
+  resolve: {
+    extensions: [".ts", ".js", ".jsx", ".tsx", ".css"]
   }
-}
+};
